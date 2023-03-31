@@ -39,7 +39,7 @@ fig1.show()
 
 # The total return for a stock at time $T$ is defined as 
 
-# $$ TR(T) = 100 \times \Big[ \Pi_{i=1}^{t\leq T}  \big( 1 + r_{t} \big) - 1\Big]$$
+# $$ TR(T) = 100 \times \Big[ \Pi_{i=1}^{t\leq T}  \big( 1 + r_{t} \big)\Big]$$
 
 # Return at time $t$ is 
 
