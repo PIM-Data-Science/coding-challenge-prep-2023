@@ -24,7 +24,6 @@ print('---> csv data in wide form')
 df_prices_wide = df_prices.pivot(index='date', columns='stock', values='price')
 df_prices_wide
 
-
 # %%
 
 # the 3 stocks price series diplayed on the same chart
@@ -35,7 +34,7 @@ fig1.show()
 
 # ### Converting To Return Series & Total Return Series
 
-# It may be difficult to compare the 3 price series above because the starting price is not the same. To overcome this, calculate the return series $r_t$ for a stck and build a price series from a common base value.
+# It may be difficult to compare the 3 price series above because the starting price is not the same. To overcome this, calculate the return series $r_t$ for a stock and build a price series from a common base value.
 
 # The total return for a stock at time $T$ is defined as 
 
@@ -65,7 +64,7 @@ df_returns = 100 * df_returns.cumprod()
 df_returns
 
 # plot
-fig3 = px.line(data_frame=df_returns.reset_index().melt(id_vars='date'), x='date', y='value', line_group='stock', color='stock', title='Stock Return Series')
+fig3 = px.line(data_frame=df_returns.reset_index().melt(id_vars='date'), x='date', y='value', line_group='stock', color='stock', title='Stock Total Return Series')
 fig3.show()
 
 # %%[markdown]
