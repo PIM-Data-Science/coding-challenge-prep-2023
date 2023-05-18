@@ -1,0 +1,89 @@
+---
+output: html_document
+title: Prescient Coding Challenge Prep 2023
+author: Zubair Patel, Shriya Roy
+---
+
+### Time Series Data
+
+Financial and economic data is mostly displayed and stored as time series. The time series data in the `csv` file is in long format
+
+```{r}
+# libraries
+library(data.table)
+library(plotly)
+library(dplyr)
+library(tidyr)
+
+# read file
+dt_prices <- fread("price_data.csv")
+dt_prices
+```
+
+```{r}
+# create wide
+print("---> csv data in wide form")
+dt_prices_wide <- dcast(dt_prices, date ~ stock, value.var = "price")
+dt_prices_wide
+```
+
+```{r}
+# plot
+fig1 <- plot_ly(dt_prices_wide, type = "scatter", mode = "lines") %>%
+    add_trace(x = ~date, y = ~AAPL, name = "AAPL") %>%
+    add_trace(x = ~date, y = ~AMZN, name = "AMZN") %>%
+    add_trace(x = ~date, y = ~MSFT, name = "MSFT") %>%
+    layout(title = "Stock Price Series", yaxis=list(title="price"), width = 1000)
+
+fig1
+```
+
+### Converting To Return Series & Total Return Series
+
+It may be difficult to compare the 3 price series above because the starting price is not the same. To overcome this, calculate the return series $r_t$ for a stock and build a price series from a common base value.
+
+The total return for a stock at time $T$ is defined as
+
+$$ TR(T) = 100 \times \Big[ \Pi_{i=1}^{t\leq T}  \big( 1 + r_{t} \big)\Big]$$
+
+Return at time $t$ is
+
+$$ r_t = \frac{p_t - p_{t-1}}{p_{t-1}}$$
+
+Compare the Total Return series for the 3 stocks
+
+```{r}
+dt_returns <- dt_prices_wide %>% 
+  mutate(across(!date, ~ .x/lag(.x) -1)) %>% 
+  drop_na()
+  
+fig2 <- plot_ly(dt_returns, type = "scatter", mode = "lines") %>%
+    add_trace(x = ~date, y = ~AAPL, name = "AAPL") %>%
+    add_trace(x = ~date, y = ~AMZN, name = "AMZN") %>%
+    add_trace(x = ~date, y = ~MSFT, name = "MSFT") %>%
+    layout(title = "Stock Return Series", yaxis=list(title="returns"), width = 1000)
+
+fig2
+```
+
+```{r}
+
+# calc total return
+dt_cumulative_returns <- dt_returns %>% 
+    mutate(across(!date, ~ 100*cumprod(1+.x)))
+
+# plot
+fig3 <- plot_ly(dt_cumulative_returns, type = "scatter", mode = "lines") %>%
+    add_trace(x = ~date, y = ~AAPL, name = "AAPL") %>%
+    add_trace(x = ~date, y = ~AMZN, name = "AMZN") %>%
+    add_trace(x = ~date, y = ~MSFT, name = "MSFT") %>%
+    layout(title = "Stock Total Return Seriess", yaxis=list(title="returns"), width = 1000)
+
+fig3
+
+```
+
+### Questions
+
+1. Notice the difference once adjusted to the same reference?
+2. Which stock or combination would you have chosen?
