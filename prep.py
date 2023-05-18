@@ -22,7 +22,7 @@ df_prices
 # %%
 
 # data in wide format
-print('---> csv data in wide form')
+print('---> csv data in wide format')
 df_prices_wide = df_prices.pivot(index='date', columns='stock', values='price')
 df_prices_wide
 
