@@ -12,6 +12,11 @@ The Python files are executed assuming a relative path or your current working d
 
 **The Plotly charts in the Jupyter file preview does not render. You must run the scripts yourself to see the charts.**
 
-You can also view the `prep_python.html`.
+You can view the entire output by downloading and opening `prep_python.html` in a web browser.
 
 ## R Instructions
+
+Follow the content in either `prep.R` or `prep.Rmd` using R Studion.
+
+You can view the entire output by downloading and opening `prep_r.html` in a web browser.
+
